@@ -1,0 +1,134 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="create-container">
+    <div class="enchant-form">
+        <h2 class="form-title">Создать новый рецепт</h2>
+
+        <form method="POST" enctype="multipart/form-data" id="recipe-form">
+            <!-- Основная категория -->
+            <div class="form-group">
+                <label for="category" class="form-label">Категория *</label>
+                <select id="category" name="category" class="form-select" required onchange="toggleSubcategories()">
+                    <option value="">Выберите категорию</option>
+                    <option value="hot">Горячие блюда</option>
+                    <option value="soups">Супы</option>
+                    <option value="desserts">Десерты</option>
+                    <option value="drinks">Напитки</option>
+                    <option value="bakery">Выпечка</option>
+                    <option value="salads">Салаты</option>
+                    <option value="snacks">Закуски</option>
+                </select>
+            </div>
+
+            <!-- Подкатегория для горячих блюд -->
+            <div class="form-group subcategory" id="hot-sub" style="display: none;">
+                <label for="hot_type" class="form-label">Тип горячего блюда</label>
+                <select id="hot_type" name="hot_type" class="form-select">
+                    <option value="">Выберите тип</option>
+                    <option value="with_meat">С мясом</option>
+                    <option value="without_meat">Без мяса</option>
+                    <option value="vegetarian">Вегетарианское</option>
+                </select>
+            </div>
+
+            <!-- Подкатегория для десертов -->
+            <div class="form-group subcategory" id="desserts-sub" style="display: none;">
+                <label for="dessert_type" class="form-label">Тип десерта</label>
+                <select id="dessert_type" name="dessert_type" class="form-select">
+                    <option value="">Выберите тип</option>
+                    <option value="cake">Торт</option>
+                    <option value="cupcakes">Капкейки</option>
+                    <option value="pie">Пирог</option>
+                    <option value="cookies">Печенье</option>
+                </select>
+            </div>
+
+            <!-- Название блюда -->
+            <div class="form-group">
+                <label for="title" class="form-label">Название блюда *</label>
+                <input type="text" id="title" name="title" class="form-input" required placeholder="Введите название рецепта">
+            </div>
+
+            <!-- Ингредиенты -->
+            <div class="form-group">
+                <label for="ingredients" class="form-label">Ингредиенты *</label>
+                <textarea id="ingredients" name="ingredients" class="form-textarea" rows="6" required placeholder="Каждый ингредиент с новой строки
+Пример:
+200 г муки
+2 яйца
+100 мл молока"></textarea>
+            </div>
+
+            <!-- Шаги приготовления -->
+            <div class="form-group">
+                <label for="instructions" class="form-label">Шаги приготовления *</label>
+                <textarea id="instructions" name="instructions" class="form-textarea" rows="8" required placeholder="Опишите шаги приготовления по порядку
+Пример:
+1. Просеять муку
+2. Взбить яйца..."></textarea>
+            </div>
+
+            <!-- Загрузка фото -->
+            <div class="form-group">
+                <label class="form-label">Фотографии блюда (необязательно)</label>
+                <div id="photo-upload-container">
+                    <input type="file" name="photos" accept="image/*" multiple class="form-input" id="photo-input">
+                </div>
+                <div id="photo-preview" class="photo-preview"></div>
+            </div>
+
+            <button type="submit" class="btn-enchant">Создать рецепт</button>
+        </form>
+    </div>
+</div>
+
+<style>
+    .photo-preview {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .photo-preview img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 2px solid var(--glass-border);
+    }
+</style>
+
+<script>
+    function toggleSubcategories() {
+        const category = document.getElementById('category').value;
+        document.querySelectorAll('.subcategory').forEach(el => el.style.display = 'none');
+
+        if (category === 'hot') {
+            document.getElementById('hot-sub').style.display = 'block';
+        } else if (category === 'desserts') {
+            document.getElementById('desserts-sub').style.display = 'block';
+        }
+    }
+
+    // Предпросмотр фото
+    document.getElementById('photo-input').addEventListener('change', function(e) {
+        const preview = document.getElementById('photo-preview');
+        preview.innerHTML = '';
+
+        for (let i = 0; i < Math.min(this.files.length, 5); i++) {
+            const file = this.files[i];
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="recipes-grid">
+    {% for recipe in recipes %}
+    <div class="recipe-card">
+        <div class="recipe-image">
+            🍲
+        </div>
+        <div class="recipe-content">
+            <h3 class="recipe-title">{{ recipe.title }}</h3>
+            <p class="recipe-author">Автор: {{ recipe.author }}</p>
+
+            <div class="recipe-ingredients">
+                <h4>⚗️ Ингредиенты:</h4>
+                <ul class="ingredient-list">
+                    {% for ingredient in recipe.ingredients[:3] %}
+                    <li>{{ ingredient }}</li>
+                    {% endfor %}
+                    {% if recipe.ingredients|length > 3 %}
+                    <li>...и еще {{ recipe.ingredients|length - 3 }}</li>
+                    {% endif %}
+                </ul>
+            </div>
+
+            <p class="recipe-meta">📅 {{ recipe.created_at }} | ❤️ {{ recipe.likes }}</p>
+        </div>
+    </div>
+    {% else %}
+    <div class="empty-state">
+        <h2>Гримуар пуст...</h2>
+        <p>Станьте первым, кто добавит магический рецепт!</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

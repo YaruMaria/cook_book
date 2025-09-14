@@ -1,0 +1,72 @@
+[
+    {
+        "id": 1,
+        "title": "суп",
+        "author": "маша",
+        "ingredients": [
+            "картошка",
+            "вода",
+            "лук"
+        ],
+        "instructions": "все смешиваем и варим",
+        "category": "Другое",
+        "created_at": "14.09.2025 22:36",
+        "likes": 0
+    },
+    {
+        "id": 2,
+        "title": "маковый бисквит",
+        "category": "desserts",
+        "hot_type": "",
+        "dessert_type": "biscuit",
+        "description": "можно добавлять в торт",
+        "prep_time": "10",
+        "cook_time": "30",
+        "total_time": 40,
+        "difficulty": "medium",
+        "servings": "4",
+        "ingredients": [
+            "200 г муки",
+            "2 шт. яйца",
+            "100 мл молока",
+            "1 ч.л. соли"
+        ],
+        "instructions": [
+            "1. Просеять муку с солью",
+            "2. Взбить яйца с сахаром до пены",
+            "3. Добавить молоко и перемешать..."
+        ],
+        "tips": [
+            "орентируемся по готовке"
+        ],
+        "tags": [
+            "торт",
+            "бисквит"
+        ],
+        "photos": [
+            "uploads/20250914_230022_0_png"
+        ],
+        "created_at": "14.09.2025 23:00",
+        "views": 0,
+        "likes": 0
+    },
+    {
+        "id": 3,
+        "title": "мясо",
+        "category": "hot",
+        "hot_type": "with_meat",
+        "dessert_type": "",
+        "ingredients": [
+            "яя",
+            "яяяяя"
+        ],
+        "instructions": [
+            "яяяяяя",
+            "яяяяяяяяяяяяяя"
+        ],
+        "photos": [
+            "uploads/20250914_230530_0_DSC00255.JPG"
+        ],
+        "created_at": "14.09.2025 23:05"
+    }
+]

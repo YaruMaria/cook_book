@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Мои Скрижали</h2>
+<p>Здесь хранятся рецепты, созданные твоей рукой.</p>
+
+{% if recipes %}
+    {% for recipe in recipes %}
+        <div class="recipe">
+            <h3>{{ recipe.title }}</h3>
+            <p><em>Автор: {{ recipe.author }}</em></p>
+            <!-- Остальное как в browse.html -->
+        </div>
+    {% endfor %}
+{% else %}
+    <p>Ты еще не создал ни одного рецепта. <a href="{{ url_for('create_recipe') }}">Исправить это!</a></p>
+{% endif %}
+{% endblock %}

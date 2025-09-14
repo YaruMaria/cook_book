@@ -1,0 +1,116 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="recipe-detail-container">
+    <div class="recipe-header">
+        {% if recipe.photos %}
+        <div class="recipe-main-photo">
+            <img src="{{ url_for('static', filename=recipe.photos[0]) }}" alt="{{ recipe.title }}">
+        </div>
+        {% endif %}
+        
+        <div class="recipe-info">
+            <h1>{{ recipe.title }}</h1>
+            <p class="recipe-meta">Добавлено: {{ recipe.created_at }}</p>
+        </div>
+    </div>
+
+    <div class="recipe-content">
+        <div class="ingredients-section">
+            <h2>🛒 Ингредиенты</h2>
+            <ul class="ingredients-list">
+                {% for ingredient in recipe.ingredients %}
+                <li>{{ ingredient }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="instructions-section">
+            <h2>👩‍🍳 Приготовление</h2>
+            <ol class="instructions-list">
+                {% for instruction in recipe.instructions %}
+                <li>{{ instruction }}</li>
+                {% endfor %}
+            </ol>
+        </div>
+
+        <div class="back-button">
+            <a href="{{ url_for('explore') }}" class="btn-enchant">← Назад к рецептам</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .recipe-detail-container {
+        max-width: 800px;
+        margin: 2rem auto;
+        padding: 0 1rem;
+    }
+
+    .recipe-header {
+        margin-bottom: 2rem;
+    }
+
+    .recipe-main-photo img {
+        width: 100%;
+        height: 300px;
+        object-fit: cover;
+        border-radius: 15px;
+        margin-bottom: 1rem;
+    }
+
+    .recipe-info h1 {
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(45deg, var(--glow-pink), var(--glow-blue));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .recipe-meta {
+        color: var(--text-secondary);
+        font-size: 1rem;
+    }
+
+    .ingredients-section,
+    .instructions-section {
+        margin-bottom: 2rem;
+        background: var(--glass-bg);
+        padding: 2rem;
+        border-radius: 15px;
+        border: 1px solid var(--glass-border);
+    }
+
+    .ingredients-list,
+    .instructions-list {
+        margin-left: 1.5rem;
+    }
+
+    .ingredients-list li {
+        margin-bottom: 0.5rem;
+        padding: 0.5rem 0;
+        border-bottom: 1px solid var(--glass-border);
+    }
+
+    .instructions-list li {
+        margin-bottom: 1rem;
+        line-height: 1.6;
+    }
+
+    .back-button {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .back-button .btn-enchant {
+        background: var(--glass-bg);
+        color: var(--text-primary);
+        border: 1px solid var(--glass-border);
+    }
+
+    .back-button .btn-enchant:hover {
+        background: var(--glow-purple);
+    }
+</style>
+{% endblock %}
