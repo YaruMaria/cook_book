@@ -49,11 +49,20 @@ def explore():
 @app.route('/recipe/<int:recipe_id>')
 def view_recipe(recipe_id):
     recipes = load_recipes()
-    recipe = next((r for r in recipes if r['id'] == recipe_id), None)
+    print(f"Ищем рецепт с ID: {recipe_id}")  # Для отладки
+    print(f"Всего рецептов: {len(recipes)}")  # Для отладки
+
+    recipe = None
+    for r in recipes:
+        if r['id'] == recipe_id:
+            recipe = r
+            break
 
     if not recipe:
+        print("Рецепт не найден!")  # Для отладки
         return redirect(url_for('explore'))
 
+    print(f"Найден рецепт: {recipe['title']}")  # Для отладки
     return render_template('recipe_detail.html', recipe=recipe, title=recipe['title'])
 
 

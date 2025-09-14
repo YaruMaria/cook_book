@@ -2,35 +2,72 @@
 
 {% block content %}
 <div class="recipes-grid">
-    {% for recipe in recipes %}
-    <div class="recipe-card">
-        <div class="recipe-image">
-            🍲
-        </div>
-        <div class="recipe-content">
-            <h3 class="recipe-title">{{ recipe.title }}</h3>
-            <p class="recipe-author">Автор: {{ recipe.author }}</p>
+    <h2 style="grid-column: 1 / -1; margin-bottom: 2rem; text-align: center;">Все рецепты</h2>
 
-            <div class="recipe-ingredients">
-                <h4>⚗️ Ингредиенты:</h4>
-                <ul class="ingredient-list">
-                    {% for ingredient in recipe.ingredients[:3] %}
-                    <li>{{ ingredient }}</li>
-                    {% endfor %}
-                    {% if recipe.ingredients|length > 3 %}
-                    <li>...и еще {{ recipe.ingredients|length - 3 }}</li>
+    {% if recipes %}
+        {% for recipe in recipes %}
+        <a href="{{ url_for('view_recipe', recipe_id=recipe.id) }}" class="recipe-card-link">
+            <div class="recipe-card">
+                <div class="recipe-image">
+                    {% if recipe.photos and recipe.photos[0] %}
+                    <img src="{{ url_for('static', filename=recipe.photos[0]) }}" alt="{{ recipe.title }}">
+                    {% else %}
+                    <span>🍲</span>
                     {% endif %}
-                </ul>
-            </div>
+                </div>
+                <div class="recipe-content">
+                    <h3 class="recipe-title">{{ recipe.title }}</h3>
+                    <p class="recipe-author">Добавлено: {{ recipe.created_at }}</p>
 
-            <p class="recipe-meta">📅 {{ recipe.created_at }} | ❤️ {{ recipe.likes }}</p>
-        </div>
-    </div>
+                    <div class="recipe-ingredients">
+                        <h4>⚗️ Ингредиенты:</h4>
+                        <ul class="ingredient-list">
+                            {% for ingredient in recipe.ingredients[:3] %}
+                            <li>{{ ingredient }}</li>
+                            {% endfor %}
+                            {% if recipe.ingredients|length > 3 %}
+                            <li>...и еще {{ recipe.ingredients|length - 3 }}</li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </a>
+        {% endfor %}
     {% else %}
-    <div class="empty-state">
-        <h2>Гримуар пуст...</h2>
-        <p>Станьте первым, кто добавит магический рецепт!</p>
-    </div>
-    {% endfor %}
+        <div class="empty-state" style="grid-column: 1 / -1; text-align: center; padding: 3rem;">
+            <h2>Рецептов пока нет...</h2>
+            <p>Будьте первым, кто добавит рецепт!</p>
+            <a href="{{ url_for('create_recipe') }}" class="btn-enchant" style="margin-top: 1rem;">Создать рецепт</a>
+        </div>
+    {% endif %}
 </div>
+
+<style>
+    .recipe-card-link {
+        text-decoration: none;
+        color: inherit;
+        display: block;
+    }
+
+    .recipe-card-link:hover .recipe-card {
+        transform: translateY(-8px) scale(1.02);
+        box-shadow:
+            0 20px 40px rgba(0, 0, 0, 0.3),
+            0 0 0 1px var(--glow-purple);
+    }
+
+    .recipe-image img {
+        width: 100%;
+        height: 200px;
+        object-fit: cover;
+    }
+
+    .empty-state {
+        background: var(--glass-bg);
+        border-radius: 20px;
+        padding: 2rem;
+        border: 1px solid var(--glass-border);
+    }
+</style>
 {% endblock %}
