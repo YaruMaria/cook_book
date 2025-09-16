@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>FlavorFlow - {{ title }}</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
@@ -20,12 +20,12 @@
         </div>
     </nav>
 
-    <main>
+    <main class="container">
         {% block content %}{% endblock %}
     </main>
 
-    <footer style="text-align: center; padding: 2rem; margin-top: 3rem; color: var(--text-secondary);">
-        <p>© 2024 FlavorFlow. Кулинарное вдохновение в цифровой эпохе.</p>
+    <footer style="text-align: center; padding: 3rem; margin-top: 4rem; background: var(--primary-orange);">
+        <p style="color: white; font-weight: 600;">© 2024 FlavorFlow. Кулинарное вдохновение</p>
     </footer>
 </body>
 </html>

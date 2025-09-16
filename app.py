@@ -49,35 +49,22 @@ def explore():
 @app.route('/recipe/<int:recipe_id>')
 def view_recipe(recipe_id):
     recipes = load_recipes()
-    print(f"Ищем рецепт с ID: {recipe_id}")  # Для отладки
-    print(f"Всего рецептов: {len(recipes)}")  # Для отладки
-
-    recipe = None
-    for r in recipes:
-        if r['id'] == recipe_id:
-            recipe = r
-            break
+    recipe = next((r for r in recipes if r['id'] == recipe_id), None)
 
     if not recipe:
-        print("Рецепт не найден!")  # Для отладки
         return redirect(url_for('explore'))
 
-    print(f"Найден рецепт: {recipe['title']}")  # Для отладки
     return render_template('recipe_detail.html', recipe=recipe, title=recipe['title'])
 
 
-@app.route('/create', methods=['GET', 'POST'])
+@app.route('/create', methods=['GET', 'POST'])  # Исправлено methods
 def create_recipe():
     if request.method == 'POST':
-        # Получаем данные из формы
         title = request.form.get('title')
         category = request.form.get('category')
-        hot_type = request.form.get('hot_type')
-        dessert_type = request.form.get('dessert_type')
         ingredients = [ing.strip() for ing in request.form.get('ingredients').split('\n') if ing.strip()]
         instructions = [inst.strip() for inst in request.form.get('instructions').split('\n') if inst.strip()]
 
-        # Обработка загруженных фото
         photo_paths = []
         if 'photos' in request.files:
             files = request.files.getlist('photos')
@@ -89,20 +76,16 @@ def create_recipe():
                     file.save(filepath)
                     photo_paths.append(f"uploads/{filename}")
 
-        # Создаем новый рецепт
         new_recipe = {
             'id': len(load_recipes()) + 1,
             'title': title,
             'category': category,
-            'hot_type': hot_type,
-            'dessert_type': dessert_type,
             'ingredients': ingredients,
             'instructions': instructions,
             'photos': photo_paths,
             'created_at': datetime.now().strftime("%d.%m.%Y %H:%M")
         }
 
-        # Сохраняем рецепт
         recipes = load_recipes()
         recipes.append(new_recipe)
         save_recipes(recipes)

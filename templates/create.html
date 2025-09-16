@@ -84,6 +84,159 @@
 </div>
 
 <style>
+    :root {
+        --primary: #A5810A;
+        --primary-dark: #7A833D;
+        --secondary: #4C4F3F;
+        --light: #FAF7EA;
+        --lighter: #EBE8D2;
+        --dark: #4C4F3F;
+        --darker: #3E3A09;
+        --success: #7A833D;
+        --danger: #8B4513;
+        --warning: #C7AE2B;
+        --gray: #7C7C53;
+        --gray-light: #E7E7D9;
+        --primary-orange: #A5810A;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+        background-image: url('https://i.pinimg.com/1200x/20/b3/81/20b381a100614731b5d6a39231af8a24.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        color: var(--dark);
+        line-height: 1.6;
+        min-height: 100vh;
+        position: relative;
+        font-size: 0.95rem;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(60, 62, 38, 0.58);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.5rem;
+        position: relative;
+    }
+
+    .create-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        padding: 2rem;
+    }
+
+    .enchant-form {
+        background: rgba(250, 247, 234, 0.95);
+        border-radius: 25px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 30px rgba(72, 77, 55, 0.15);
+        border: 1px solid rgba(224, 231, 255, 0.3);
+        width: 100%;
+        max-width: 700px;
+        position: relative;
+        overflow: hidden;
+        margin: 2rem 0;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .enchant-form::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+        border-radius: 25px 0 0 25px;
+    }
+
+    .form-title {
+        font-family: 'Fredoka One', 'Roboto', cursive;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--darker);
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        animation: fadeIn 0.8s ease-in-out;
+        animation-delay: 0.2s;
+        animation-fill-mode: both;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--darker);
+        margin-bottom: 0.5rem;
+        display: block;
+        font-size: 1.05rem;
+    }
+
+    .form-input, .form-select, .form-textarea {
+        width: 100%;
+        padding: 1rem 1.3rem;
+        border: 1px solid var(--lighter);
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--dark);
+        font-size: 1rem;
+        transition: all 0.4s ease;
+    }
+
+    .form-textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(165, 129, 10, 0.25);
+    }
+
+    .btn-enchant {
+        background: linear-gradient(135deg, var(--primary), var(--warning));
+        color: var(--darker);
+        border: none;
+        border-radius: 25px;
+        padding: 1.2rem 2rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        display: block;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(199, 174, 43, 0.4);
+        margin-top: 1rem;
+    }
+
+    .btn-enchant:hover {
+        background: linear-gradient(135deg, var(--warning), var(--primary));
+        box-shadow: 0 6px 20px rgba(199, 174, 43, 0.6);
+        transform: translateY(-3px);
+    }
+
     .photo-preview {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
@@ -96,7 +249,34 @@
         height: 100px;
         object-fit: cover;
         border-radius: 10px;
-        border: 2px solid var(--glass-border);
+        border: 2px solid var(--lighter);
+    }
+
+    @media (max-width: 768px) {
+        .enchant-form {
+            padding: 1.5rem;
+            border-radius: 20px;
+        }
+        .form-title {
+            font-size: 1.8rem;
+        }
+        .btn-enchant {
+            border-radius: 20px;
+        }
+        .photo-preview {
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>
 
@@ -132,3 +312,4 @@
     });
 </script>
 {% endblock %}
+

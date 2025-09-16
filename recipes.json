@@ -68,5 +68,23 @@
             "uploads/20250914_230530_0_DSC00255.JPG"
         ],
         "created_at": "14.09.2025 23:05"
+    },
+    {
+        "id": 4,
+        "title": "торт",
+        "category": "desserts",
+        "ingredients": [
+            "мука",
+            "вода",
+            "яйца"
+        ],
+        "instructions": [
+            "просеять муку",
+            "влить воду"
+        ],
+        "photos": [
+            "uploads/20250916_180800_0_DSC00255.JPG"
+        ],
+        "created_at": "16.09.2025 18:08"
     }
 ]
