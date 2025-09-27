@@ -1,18 +1,227 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Мои Скрижали</h2>
-<p>Здесь хранятся рецепты, созданные твоей рукой.</p>
+<div class="my-recipes-container">
+    <div class="hero fade-in">
+        <h2 class="hero-title">Мои Скрижали</h2>
+        <p class="hero-subtitle">Здесь хранятся рецепты, созданные твоей рукой.</p>
+    </div>
 
-{% if recipes %}
-    {% for recipe in recipes %}
-        <div class="recipe">
-            <h3>{{ recipe.title }}</h3>
-            <p><em>Автор: {{ recipe.author }}</em></p>
-            <!-- Остальное как в browse.html -->
+    {% if recipes %}
+        <div class="recipes-grid">
+            {% for recipe in recipes %}
+                <div class="recipe-card fade-in" style="animation-delay: {{ loop.index * 0.1 }}s;">
+                    <h3>{{ recipe.title }}</h3>
+                    <p><em>Автор: {{ recipe.author }}</em></p>
+                    <!-- Остальное как в browse.html -->
+                </div>
+            {% endfor %}
         </div>
-    {% endfor %}
-{% else %}
-    <p>Ты еще не создал ни одного рецепта. <a href="{{ url_for('create_recipe') }}">Исправить это!</a></p>
-{% endif %}
+    {% else %}
+        <div class="no-recipes fade-in">
+            <p>Ты еще не создал ни одного рецепта. <a href="{{ url_for('create_recipe') }}">Исправить это!</a></p>
+        </div>
+    {% endif %}
+</div>
+
+<style>
+    :root {
+        --primary: #A5810A;
+        --primary-dark: #7A833D;
+        --secondary: #4C4F3F;
+        --light: #FAF7EA;
+        --lighter: #EBE8D2;
+        --dark: #4C4F3F;
+        --darker: #3E3A09;
+        --success: #7A833D;
+        --danger: #8B4513;
+        --warning: #C7AE2B;
+        --gray: #7C7C53;
+        --gray-light: #E7E7D9;
+        --primary-orange: #A5810A;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+        background-image: url('https://i.pinimg.com/1200x/20/b3/81/20b381a100614731b5d6a39231af8a24.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        color: var(--dark);
+        line-height: 1.6;
+        min-height: 100vh;
+        position: relative;
+        font-size: 0.95rem;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(60, 62, 38, 0.58);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.5rem;
+        position: relative;
+    }
+
+    .my-recipes-container {
+        padding: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    .hero {
+        text-align: center;
+        padding: 4rem 2rem;
+        margin-bottom: 3rem;
+        background: rgba(250, 247, 234, 0.9);
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(72, 77, 55, 0.15);
+        border: 1px solid rgba(224, 231, 255, 0.3);
+        max-width: 800px;
+        margin: 2rem auto;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .hero-title {
+        font-family: 'Fredoka One', 'Roboto', cursive;
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--darker);
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .hero-subtitle {
+        font-size: 1.3rem;
+        color: var(--primary-dark);
+        font-weight: 500;
+    }
+
+    .recipes-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .recipe-card {
+        background: rgba(250, 247, 234, 0.95);
+        border-radius: 25px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 30px rgba(72, 77, 55, 0.15);
+        border: 1px solid rgba(224, 231, 255, 0.3);
+        text-align: center;
+        transition: all 0.4s ease;
+        animation: fadeIn 0.8s ease-in-out;
+        animation-fill-mode: both;
+    }
+
+    .recipe-card:hover {
+        transform: translateY(-10px);
+        box-shadow: 0 15px 40px rgba(72, 77, 55, 0.25);
+    }
+
+    .recipe-card h3 {
+        font-family: 'Fredoka One', 'Roboto', cursive;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--darker);
+        margin-bottom: 1rem;
+    }
+
+    .recipe-card p {
+        color: var(--primary-dark);
+        font-size: 1.1rem;
+        line-height: 1.6;
+    }
+
+    .no-recipes {
+        text-align: center;
+        padding: 4rem 2rem;
+        background: rgba(250, 247, 234, 0.9);
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(72, 77, 55, 0.15);
+        border: 1px solid rgba(224, 231, 255, 0.3);
+        max-width: 600px;
+        margin: 2rem auto;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .no-recipes p {
+        font-size: 1.2rem;
+        color: var(--primary-dark);
+    }
+
+    .no-recipes a {
+        color: var(--primary);
+        text-decoration: none;
+        font-weight: 600;
+        transition: color 0.3s ease;
+    }
+
+    .no-recipes a:hover {
+        color: var(--warning);
+    }
+
+    @media (max-width: 768px) {
+        .hero {
+            padding: 2rem 1rem;
+            border-radius: 20px;
+        }
+        .hero-title {
+            font-size: 2.2rem;
+        }
+        .hero-subtitle {
+            font-size: 1.1rem;
+        }
+        .recipes-grid {
+            grid-template-columns: 1fr;
+            padding: 0 1rem;
+        }
+        .recipe-card {
+            padding: 1.5rem;
+            border-radius: 20px;
+        }
+        .recipe-card h3 {
+            font-size: 1.5rem;
+        }
+        .recipe-card p {
+            font-size: 1rem;
+        }
+        .no-recipes {
+            padding: 2rem 1rem;
+            border-radius: 20px;
+        }
+        .no-recipes p {
+            font-size: 1rem;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
 {% endblock %}
+

@@ -1,25 +1,185 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="about-container">
+<div class="about-container fade-in">
     <div class="about-content">
         <h1>О проекте FlavorFlow</h1>
         <p>Современная платформа для обмена кулинарными рецептами и вдохновения.</p>
-        
+
         <div class="features-grid">
-            <div class="feature">
+            <div class="feature fade-in" style="animation-delay: 0.1s;">
                 <h3>🎯 Простота использования</h3>
                 <p>Интуитивный интерфейс для быстрого создания и поиска рецептов</p>
             </div>
-            <div class="feature">
+            <div class="feature fade-in" style="animation-delay: 0.2s;">
                 <h3>📸 Визуальное удовольствие</h3>
                 <p>Возможность загружать фотографии каждого этапа приготовления</p>
             </div>
-            <div class="feature">
+            <div class="feature fade-in" style="animation-delay: 0.3s;">
                 <h3>🏷️ Умная категоризация</h3>
                 <p>Детальная система категорий и тегов для удобного поиска</p>
             </div>
         </div>
     </div>
 </div>
+
+<style>
+    :root {
+        --primary: #A5810A;
+        --primary-dark: #7A833D;
+        --secondary: #4C4F3F;
+        --light: #FAF7EA;
+        --lighter: #EBE8D2;
+        --dark: #4C4F3F;
+        --darker: #3E3A09;
+        --success: #7A833D;
+        --danger: #8B4513;
+        --warning: #C7AE2B;
+        --gray: #7C7C53;
+        --gray-light: #E7E7D9;
+        --primary-orange: #A5810A;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+        background-image: url('https://i.pinimg.com/1200x/20/b3/81/20b381a100614731b5d6a39231af8a24.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        color: var(--dark);
+        line-height: 1.6;
+        min-height: 100vh;
+        position: relative;
+        font-size: 0.95rem;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(60, 62, 38, 0.58);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .about-container {
+        max-width: 1200px;
+        margin: 2rem auto;
+        padding: 2rem;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .about-content {
+        background: rgba(250, 247, 234, 0.95);
+        border-radius: 25px;
+        padding: 3rem;
+        box-shadow: 0 10px 30px rgba(72, 77, 55, 0.15);
+        border: 1px solid rgba(224, 231, 255, 0.3);
+        text-align: center;
+    }
+
+    .about-content h1 {
+        font-family: 'Fredoka One', 'Roboto', cursive;
+        font-size: 3rem;
+        font-weight: 700;
+        color: var(--darker);
+        margin-bottom: 1rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .about-content > p {
+        font-size: 1.3rem;
+        color: var(--primary-dark);
+        margin-bottom: 3rem;
+        font-weight: 500;
+    }
+
+    .features-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-top: 2rem;
+    }
+
+    .feature {
+        background: var(--lighter);
+        border-radius: 20px;
+        padding: 2rem;
+        box-shadow: 0 5px 15px rgba(72, 77, 55, 0.1);
+        transition: all 0.3s ease;
+        animation: fadeIn 0.8s ease-in-out;
+        animation-fill-mode: both;
+    }
+
+    .feature:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(72, 77, 55, 0.2);
+    }
+
+    .feature h3 {
+        font-family: 'Fredoka One', 'Roboto', cursive;
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--darker);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .feature p {
+        color: var(--dark);
+        font-size: 1rem;
+        line-height: 1.6;
+    }
+
+    @media (max-width: 768px) {
+        .about-container {
+            margin: 1rem;
+            padding: 1rem;
+        }
+        .about-content {
+            padding: 2rem;
+            border-radius: 20px;
+        }
+        .about-content h1 {
+            font-size: 2.2rem;
+        }
+        .about-content > p {
+            font-size: 1.1rem;
+        }
+        .features-grid {
+            grid-template-columns: 1fr;
+        }
+        .feature {
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+        .feature h3 {
+            font-size: 1.3rem;
+        }
+        .feature p {
+            font-size: 0.95rem;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
 {% endblock %}
+

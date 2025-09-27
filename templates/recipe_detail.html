@@ -39,4 +39,200 @@
         </div>
     </div>
 </div>
+
+<style>
+    :root {
+        --primary: #A5810A;
+        --primary-dark: #7A833D;
+        --secondary: #4C4F3F;
+        --light: #FAF7EA;
+        --lighter: #EBE8D2;
+        --dark: #4C4F3F;
+        --darker: #3E3A09;
+        --success: #7A833D;
+        --danger: #8B4513;
+        --warning: #C7AE2B;
+        --gray: #7C7C53;
+        --gray-light: #E7E7D9;
+        --primary-orange: #A5810A;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+        background-image: url('https://i.pinimg.com/1200x/20/b3/81/20b381a100614731b5d6a39231af8a24.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        color: var(--dark);
+        line-height: 1.6;
+        min-height: 100vh;
+        position: relative;
+        font-size: 0.95rem;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(60, 62, 38, 0.58);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .recipe-detail-container {
+        max-width: 1000px;
+        margin: 2rem auto;
+        padding: 2rem;
+        background: rgba(250, 247, 234, 0.95);
+        border-radius: 25px;
+        box-shadow: 0 10px 30px rgba(72, 77, 55, 0.15);
+        border: 1px solid rgba(224, 231, 255, 0.3);
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .recipe-header {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 2rem;
+        flex-wrap: wrap;
+    }
+
+    .recipe-main-photo img {
+        width: 200px;
+        height: 200px;
+        object-fit: cover;
+        border-radius: 15px;
+        box-shadow: 0 5px 15px rgba(72, 77, 55, 0.2);
+    }
+
+    .recipe-info h1 {
+        font-family: 'Fredoka One', 'Roboto', cursive;
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--darker);
+        margin-bottom: 0.5rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .recipe-meta {
+        font-size: 1rem;
+        color: var(--primary-dark);
+        font-style: italic;
+    }
+
+    .recipe-content {
+        display: grid;
+        gap: 2rem;
+    }
+
+    .ingredients-section, .instructions-section {
+        background: var(--lighter);
+        padding: 2rem;
+        border-radius: 20px;
+        box-shadow: 0 5px 15px rgba(72, 77, 55, 0.1);
+    }
+
+    .ingredients-section h2, .instructions-section h2 {
+        font-family: 'Fredoka One', 'Roboto', cursive;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--darker);
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .ingredients-list, .instructions-list {
+        list-style-position: inside;
+        padding-left: 1rem;
+    }
+
+    .ingredients-list li, .instructions-list li {
+        margin-bottom: 0.5rem;
+        font-size: 1.1rem;
+        color: var(--dark);
+        line-height: 1.5;
+    }
+
+    .instructions-list {
+        list-style-type: decimal;
+    }
+
+    .back-button {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .btn-enchant {
+        display: inline-block;
+        padding: 0.8rem 2rem;
+        background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+        color: var(--light);
+        text-decoration: none;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 1.1rem;
+        box-shadow: 0 5px 15px rgba(72, 77, 55, 0.2);
+        transition: all 0.3s ease;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-enchant:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(72, 77, 55, 0.3);
+        background: linear-gradient(135deg, var(--warning), var(--primary));
+    }
+
+    @media (max-width: 768px) {
+        .recipe-detail-container {
+            margin: 1rem;
+            padding: 1rem;
+            border-radius: 20px;
+        }
+        .recipe-header {
+            flex-direction: column;
+            text-align: center;
+            gap: 1rem;
+        }
+        .recipe-main-photo img {
+            width: 150px;
+            height: 150px;
+        }
+        .recipe-info h1 {
+            font-size: 2rem;
+        }
+        .ingredients-section, .instructions-section {
+            padding: 1.5rem;
+            border-radius: 15px;
+        }
+        .ingredients-section h2, .instructions-section h2 {
+            font-size: 1.5rem;
+        }
+        .btn-enchant {
+            padding: 0.7rem 1.5rem;
+            font-size: 1rem;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
 {% endblock %}
+
