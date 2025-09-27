@@ -1,20 +1,6 @@
 [
     {
         "id": 1,
-        "title": "суп",
-        "author": "маша",
-        "ingredients": [
-            "картошка",
-            "вода",
-            "лук"
-        ],
-        "instructions": "все смешиваем и варим",
-        "category": "Другое",
-        "created_at": "14.09.2025 22:36",
-        "likes": 0
-    },
-    {
-        "id": 2,
         "title": "маковый бисквит",
         "category": "desserts",
         "hot_type": "",
@@ -51,26 +37,7 @@
         "likes": 0
     },
     {
-        "id": 3,
-        "title": "мясо",
-        "category": "hot",
-        "hot_type": "with_meat",
-        "dessert_type": "",
-        "ingredients": [
-            "яя",
-            "яяяяя"
-        ],
-        "instructions": [
-            "яяяяяя",
-            "яяяяяяяяяяяяяя"
-        ],
-        "photos": [
-            "uploads/20250914_230530_0_DSC00255.JPG"
-        ],
-        "created_at": "14.09.2025 23:05"
-    },
-    {
-        "id": 4,
+        "id": 2,
         "title": "торт",
         "category": "desserts",
         "ingredients": [

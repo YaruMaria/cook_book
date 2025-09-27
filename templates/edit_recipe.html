@@ -1,0 +1,441 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="create-container">
+    <div class="enchant-form">
+        <h2 class="form-title">Редактировать рецепт</h2>
+
+        <form method="POST" enctype="multipart/form-data" id="recipe-form">
+            <!-- Основная категория -->
+            <div class="form-group">
+                <label for="category" class="form-label">Категория *</label>
+                <select id="category" name="category" class="form-select" required onchange="toggleSubcategories()">
+                    <option value="">Выберите категорию</option>
+                    <option value="hot" {% if recipe.category == 'hot' %}selected{% endif %}>Горячие блюда</option>
+                    <option value="soups" {% if recipe.category == 'soups' %}selected{% endif %}>Супы</option>
+                    <option value="desserts" {% if recipe.category == 'desserts' %}selected{% endif %}>Десерты</option>
+                    <option value="drinks" {% if recipe.category == 'drinks' %}selected{% endif %}>Напитки</option>
+                    <option value="bakery" {% if recipe.category == 'bakery' %}selected{% endif %}>Выпечка</option>
+                    <option value="salads" {% if recipe.category == 'salads' %}selected{% endif %}>Салаты</option>
+                    <option value="snacks" {% if recipe.category == 'snacks' %}selected{% endif %}>Закуски</option>
+                </select>
+            </div>
+
+            <!-- Подкатегория для горячих блюд -->
+            <div class="form-group subcategory" id="hot-sub" style="display: {% if recipe.category == 'hot' %}block{% else %}none{% endif %};">
+                <label for="hot_type" class="form-label">Тип горячего блюда</label>
+                <select id="hot_type" name="hot_type" class="form-select">
+                    <option value="">Выберите тип</option>
+                    <option value="with_meat" {% if recipe.subcategory == 'with_meat' %}selected{% endif %}>С мясом</option>
+                    <option value="without_meat" {% if recipe.subcategory == 'without_meat' %}selected{% endif %}>Без мяса</option>
+                    <option value="vegetarian" {% if recipe.subcategory == 'vegetarian' %}selected{% endif %}>Вегетарианское</option>
+                </select>
+            </div>
+
+            <!-- Подкатегория для десертов -->
+            <div class="form-group subcategory" id="desserts-sub" style="display: {% if recipe.category == 'desserts' %}block{% else %}none{% endif %};">
+                <label for="dessert_type" class="form-label">Тип десерта</label>
+                <select id="dessert_type" name="dessert_type" class="form-select">
+                    <option value="">Выберите тип</option>
+                    <option value="cake" {% if recipe.subcategory == 'cake' %}selected{% endif %}>Торт</option>
+                    <option value="cupcakes" {% if recipe.subcategory == 'cupcakes' %}selected{% endif %}>Капкейки</option>
+                    <option value="pie" {% if recipe.subcategory == 'pie' %}selected{% endif %}>Пирог</option>
+                    <option value="cookies" {% if recipe.subcategory == 'cookies' %}selected{% endif %}>Печенье</option>
+                </select>
+            </div>
+
+            <!-- Название блюда -->
+            <div class="form-group">
+                <label for="title" class="form-label">Название блюда *</label>
+                <input type="text" id="title" name="title" class="form-input" required value="{{ recipe.title }}" placeholder="Введите название рецепта">
+            </div>
+
+            <!-- Ингредиенты -->
+            <div class="form-group">
+                <label for="ingredients" class="form-label">Ингредиенты *</label>
+                <textarea id="ingredients" name="ingredients" class="form-textarea" rows="6" required placeholder="Каждый ингредиент с новой строки
+Пример:
+200 г муки
+2 яйца
+100 мл молока">{{ '\n'.join(recipe.ingredients) }}</textarea>
+            </div>
+
+            <!-- Шаги приготовления -->
+            <div class="form-group">
+                <label for="instructions" class="form-label">Шаги приготовления *</label>
+                <textarea id="instructions" name="instructions" class="form-textarea" rows="8" required placeholder="Опишите шаги приготовления по порядку
+Пример:
+1. Просеять муку
+2. Взбить яйца...">{{ '\n'.join(recipe.instructions) }}</textarea>
+            </div>
+
+            <!-- Существующие фотографии -->
+            {% if recipe.photos %}
+            <div class="form-group">
+                <label class="form-label">Текущие фотографии</label>
+                <div class="existing-photos">
+                    {% for photo in recipe.photos %}
+                    <div class="photo-item">
+                        <img src="{{ url_for('static', filename=photo) }}" alt="Фото рецепта">
+                        <label class="photo-checkbox">
+                            <input type="checkbox" name="keep_photos" value="{{ photo }}" checked>
+                            <span>Сохранить</span>
+                        </label>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+
+            <!-- Новые фотографии -->
+            <div class="form-group">
+                <label class="form-label">Добавить новые фотографии (необязательно)</label>
+                <div id="photo-upload-container">
+                    <input type="file" name="photos" accept="image/*" multiple class="form-input" id="photo-input">
+                </div>
+                <div id="photo-preview" class="photo-preview"></div>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-enchant">Сохранить изменения</button>
+                <a href="{{ url_for('view_recipe', recipe_id=recipe.id) }}" class="btn-cancel">Отмена</a>
+            </div>
+        </form>
+
+        <!-- Кнопка удаления -->
+        <div class="delete-section">
+            <form method="POST" action="{{ url_for('delete_recipe', recipe_id=recipe.id) }}"
+                  onsubmit="return confirm('Вы уверены, что хотите удалить этот рецепт? Это действие нельзя отменить.');">
+                <button type="submit" class="btn-delete">🗑️ Удалить рецепт</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+<style>
+    :root {
+        --primary: #A5810A;
+        --primary-dark: #7A833D;
+        --secondary: #4C4F3F;
+        --light: #FAF7EA;
+        --lighter: #EBE8D2;
+        --dark: #4C4F3F;
+        --darker: #3E3A09;
+        --success: #7A833D;
+        --danger: #8B4513;
+        --warning: #C7AE2B;
+        --gray: #7C7C53;
+        --gray-light: #E7E7D9;
+        --primary-orange: #A5810A;
+    }
+
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: 'Roboto', sans-serif;
+    }
+
+    body {
+        background-image: url('https://i.pinimg.com/1200x/20/b3/81/20b381a100614731b5d6a39231af8a24.jpg');
+        background-size: cover;
+        background-position: center center;
+        background-repeat: no-repeat;
+        color: var(--dark);
+        line-height: 1.6;
+        min-height: 100vh;
+        position: relative;
+        font-size: 0.95rem;
+    }
+
+    body::before {
+        content: '';
+        position: fixed;
+        top: 0; left: 0; right: 0; bottom: 0;
+        background: rgba(60, 62, 38, 0.58);
+        pointer-events: none;
+        z-index: -1;
+    }
+
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 1.5rem;
+        position: relative;
+    }
+
+    .create-container {
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        min-height: 100vh;
+        padding: 2rem;
+    }
+
+    .enchant-form {
+        background: rgba(250, 247, 234, 0.95);
+        border-radius: 25px;
+        padding: 2.5rem;
+        box-shadow: 0 10px 30px rgba(72, 77, 55, 0.15);
+        border: 1px solid rgba(224, 231, 255, 0.3);
+        width: 100%;
+        max-width: 700px;
+        position: relative;
+        overflow: hidden;
+        margin: 2rem 0;
+        animation: fadeIn 0.8s ease-in-out;
+    }
+
+    .enchant-form::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 5px;
+        height: 100%;
+        background: linear-gradient(to bottom, var(--primary), var(--primary-dark));
+        border-radius: 25px 0 0 25px;
+    }
+
+    .form-title {
+        font-family: 'Fredoka One', 'Roboto', cursive;
+        font-size: 2.2rem;
+        font-weight: 700;
+        color: var(--darker);
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+        animation: fadeIn 0.8s ease-in-out;
+        animation-delay: 0.2s;
+        animation-fill-mode: both;
+    }
+
+    .form-label {
+        font-weight: 600;
+        color: var(--darker);
+        margin-bottom: 0.5rem;
+        display: block;
+        font-size: 1.05rem;
+    }
+
+    .form-input, .form-select, .form-textarea {
+        width: 100%;
+        padding: 1rem 1.3rem;
+        border: 1px solid var(--lighter);
+        border-radius: 15px;
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--dark);
+        font-size: 1rem;
+        transition: all 0.4s ease;
+    }
+
+    .form-textarea {
+        min-height: 150px;
+        resize: vertical;
+    }
+
+    .form-input:focus, .form-select:focus, .form-textarea:focus {
+        outline: none;
+        border-color: var(--primary);
+        box-shadow: 0 0 0 3px rgba(165, 129, 10, 0.25);
+    }
+
+    .btn-enchant {
+        background: linear-gradient(135deg, var(--primary), var(--warning));
+        color: var(--darker);
+        border: none;
+        border-radius: 25px;
+        padding: 1.2rem 2rem;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        display: block;
+        width: 100%;
+        text-align: center;
+        box-shadow: 0 4px 15px rgba(199, 174, 43, 0.4);
+        margin-top: 1rem;
+    }
+
+    .btn-enchant:hover {
+        background: linear-gradient(135deg, var(--warning), var(--primary));
+        box-shadow: 0 6px 20px rgba(199, 174, 43, 0.6);
+        transform: translateY(-3px);
+    }
+
+    .photo-preview {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .photo-preview img {
+        width: 100px;
+        height: 100px;
+        object-fit: cover;
+        border-radius: 10px;
+        border: 2px solid var(--lighter);
+    }
+
+    /* Специфические стили для edit */
+    .existing-photos {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .photo-item {
+        text-align: center;
+    }
+
+    .photo-item img {
+        width: 100%;
+        height: 120px;
+        object-fit: cover;
+        border-radius: 10px;
+        margin-bottom: 0.5rem;
+        border: 2px solid var(--lighter);
+    }
+
+    .photo-checkbox {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        cursor: pointer;
+    }
+
+    .photo-checkbox input[type="checkbox"] {
+        width: 18px;
+        height: 18px;
+    }
+
+    .form-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .btn-cancel {
+        display: inline-block;
+        padding: 1.2rem 2rem;
+        background: var(--gray-light);
+        color: var(--dark);
+        text-decoration: none;
+        border-radius: 25px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        text-align: center;
+        flex: 1;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(124, 124, 83, 0.2);
+    }
+
+    .btn-cancel:hover {
+        background: var(--gray);
+        color: white;
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(124, 124, 83, 0.4);
+    }
+
+    .delete-section {
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 2px solid var(--lighter);
+        text-align: center;
+    }
+
+    .btn-delete {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+        border: none;
+        padding: 1rem 2rem;
+        border-radius: 25px;
+        font-weight: 700;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: all 0.4s ease;
+        box-shadow: 0 4px 15px rgba(220, 53, 69, 0.4);
+    }
+
+    .btn-delete:hover {
+        background: linear-gradient(135deg, #c82333, #a71e2a);
+        transform: translateY(-3px);
+        box-shadow: 0 6px 20px rgba(220, 53, 69, 0.6);
+    }
+
+    @media (max-width: 768px) {
+        .enchant-form {
+            padding: 1.5rem;
+            border-radius: 20px;
+        }
+        .form-title {
+            font-size: 1.8rem;
+        }
+        .btn-enchant, .btn-cancel, .btn-delete {
+            border-radius: 20px;
+            padding: 1rem 1.5rem;
+        }
+        .photo-preview, .existing-photos {
+            grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+        }
+        .form-actions {
+            flex-direction: column;
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+</style>
+
+<script>
+    function toggleSubcategories() {
+        const category = document.getElementById('category').value;
+        document.querySelectorAll('.subcategory').forEach(el => el.style.display = 'none');
+
+        if (category === 'hot') {
+            document.getElementById('hot-sub').style.display = 'block';
+        } else if (category === 'desserts') {
+            document.getElementById('desserts-sub').style.display = 'block';
+        }
+    }
+
+    // Инициализация подкатегорий при загрузке (если категория уже выбрана)
+    document.addEventListener('DOMContentLoaded', function() {
+        toggleSubcategories();
+    });
+
+    // Предпросмотр новых фото
+    document.getElementById('photo-input').addEventListener('change', function(e) {
+        const preview = document.getElementById('photo-preview');
+        preview.innerHTML = '';
+
+        for (let i = 0; i < Math.min(this.files.length, 5); i++) {
+            const file = this.files[i];
+            if (file.type.startsWith('image/')) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    const img = document.createElement('img');
+                    img.src = e.target.result;
+                    preview.appendChild(img);
+                }
+                reader.readAsDataURL(file);
+            }
+        }
+    });
+</script>
+{% endblock %}
+
